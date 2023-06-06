@@ -2,6 +2,9 @@ package com.t3.springbackend.entity;
 
 import java.util.Date;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,9 +32,11 @@ public class Task {
     private boolean isDone;
 
     @Column(name = "creation_date")
+    @CreationTimestamp
     private Date creationDate;
 
     @Column(name = "update_date")
+    @UpdateTimestamp
     private Date updateDate;
 
     @Column(name = "deadline_date")
