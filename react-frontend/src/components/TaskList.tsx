@@ -1,60 +1,62 @@
+import { useEffect, useState } from "react";
 import Task from "../interfaces/Task";
-
-const DUMMY_TASK_LIST: Task[] = [
-    {
-        "id": 1,
-        "name": "Tarefa 1",
-        "description": "descriçao tarefa 1",
-        "creationDate": "2023-06-06T00:14:53.886+00:00",
-        "updateDate": "2023-06-06T00:14:53.886+00:00",
-        "deadlineDate": "2023-07-06T00:14:53.886+00:00",
-        "done": false
-    },
-    {
-        "id": 2,
-        "name": "Tarefa 2",
-        "description": "descriçao tarefa 2",
-        "creationDate": "2023-06-06T00:14:53.886+00:00",
-        "updateDate": "2023-06-06T00:14:53.886+00:00",
-        "deadlineDate": "2023-07-06T00:14:53.886+00:00",
-        "done": true
-    },
-    {
-      "id": 3,
-      "name": "Tarefa 3",
-      "description": "descriçao tarefa 3",
-      "creationDate": "2023-06-06T00:14:53.886+00:00",
-      "updateDate": "2023-06-06T00:14:53.886+00:00",
-      "deadlineDate": "2023-07-06T00:14:53.886+00:00",
-      "done": false
-    }
-  ];
+import TaskServiceFront from "../services/TaskServiceFront";
+import { Link } from "react-router-dom";
 
 export default function TaskList() {
 
-    const taskListRows = DUMMY_TASK_LIST.map( task =>
-        <TaskListRow task={task} />
+    const [taskList, setTaskList] = useState<Task[]>([]);
+
+    useEffect(() => {
+
+        const fetchTaskList = async () => {
+            try {
+                const response = await TaskServiceFront.getTasks();
+                setTaskList(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchTaskList();
+
+    },[]);
+
+    const taskListRows = taskList.map( task =>
+        <TaskListRow task={task} key={task.id} deleteTask={() => deleteTask(task.id!)}/>
     );
 
+    const deleteTask = (id: number) => {
+        TaskServiceFront.deleteTaskById(id).then(() => {
+            setTaskList(taskList.filter((task: Task) => task.id !== id));
+        })
+        console.log("Task With Id: " + id + " was deleted.");
+    };
+
     return(
-        <>
-            <table>
+        <table>
+
+            <thead>
                 <tr>
                     <th>Id</th>
                     <th>Task Name</th>
                     <th>Deadline</th>
                     <th>Is Done</th>
+                    <th>Actions</th>
                 </tr>
+            </thead>
 
+            <tbody>
                 {taskListRows}
+            </tbody>
 
-            </table>
-        </>
+        </table>
     );
 }
 
 interface TaskListRowProps {
     task: Task;
+    deleteTask: any;
 }
 
 function TaskListRow(props: TaskListRowProps){
@@ -62,9 +64,12 @@ function TaskListRow(props: TaskListRowProps){
     return(
         <tr>
             <td>{props.task.id}</td>
-            <td>{props.task.name}</td>
+            <td><Link to={"/" + props.task.id}>{props.task.name}</Link></td>
             <td>{props.task.deadlineDate}</td>
-            <td>{props.task.done ? "True": "False"}</td>
+            <td><input type="checkbox" checked={props.task.done} disabled={true}></input></td>
+            <td>
+                <button onClick={props.deleteTask}> delete </button>
+            </td>
         </tr>
     );
 } 
