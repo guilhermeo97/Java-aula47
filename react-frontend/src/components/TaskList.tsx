@@ -61,14 +61,16 @@ interface TaskListRowProps {
 
 function TaskListRow(props: TaskListRowProps){
 
+    const formatedDate = new Date(props.task.deadlineDate).toLocaleString('pt-BR', { timeZone: 'UTC' });
+
     return(
         <tr className="odd:bg-white even:bg-slate-50">
             <td className="text-left px-6 py-4 whitespace-nowrap">{props.task.id}</td>
             <td className="text-left px-6 py-4 whitespace-nowrap"><Link className="text-indigo-400 hover:text-indigo-600 focus:text-indigo-600" to={"/" + props.task.id}>{props.task.name}</Link></td>
-            <td className="text-left px-6 py-4 whitespace-nowrap">{props.task.deadlineDate}</td>
+            <td className="text-left px-6 py-4 whitespace-nowrap"> {formatedDate} </td>
             <td className="text-left px-6 py-4 whitespace-nowrap"><input type="checkbox" checked={props.task.done} disabled={true}></input></td>
             <td className="text-left px-6 py-4 whitespace-nowrap">
-                <button className="text-red-400 hover:text-red-600 focus:text-red-600" onClick={props.deleteTask}> Delete </button>
+                <button className="text-red-400 hover:text-red-600 focus:text-red-600" onClick={props.deleteTask}> delete </button>
             </td>
         </tr>
     );
