@@ -34,15 +34,15 @@ export default function TaskList() {
     };
 
     return(
-        <table>
+        <table className="border-black border-2 min-w-full">
 
-            <thead>
+            <thead className="bg-gray-200">
                 <tr>
-                    <th>Id</th>
-                    <th>Task Name</th>
-                    <th>Deadline</th>
-                    <th>Is Done</th>
-                    <th>Actions</th>
+                    <th className="text-left font-medium text-gray-500 uppercase py-3 px-6">Id</th>
+                    <th className="text-left font-medium text-gray-500 uppercase py-3 px-6">Task Name</th>
+                    <th className="text-left font-medium text-gray-500 uppercase py-3 px-6">Deadline</th>
+                    <th className="text-left font-medium text-gray-500 uppercase py-3 px-6">Is Done</th>
+                    <th className="text-left font-medium text-gray-500 uppercase py-3 px-6">Actions</th>
                 </tr>
             </thead>
 
@@ -62,13 +62,13 @@ interface TaskListRowProps {
 function TaskListRow(props: TaskListRowProps){
 
     return(
-        <tr>
-            <td>{props.task.id}</td>
-            <td><Link to={"/" + props.task.id}>{props.task.name}</Link></td>
-            <td>{props.task.deadlineDate}</td>
-            <td><input type="checkbox" checked={props.task.done} disabled={true}></input></td>
-            <td>
-                <button onClick={props.deleteTask}> delete </button>
+        <tr className="odd:bg-white even:bg-slate-50">
+            <td className="text-left px-6 py-4 whitespace-nowrap">{props.task.id}</td>
+            <td className="text-left px-6 py-4 whitespace-nowrap"><Link className="text-indigo-400 hover:text-indigo-600 focus:text-indigo-600" to={"/" + props.task.id}>{props.task.name}</Link></td>
+            <td className="text-left px-6 py-4 whitespace-nowrap">{props.task.deadlineDate}</td>
+            <td className="text-left px-6 py-4 whitespace-nowrap"><input type="checkbox" checked={props.task.done} disabled={true}></input></td>
+            <td className="text-left px-6 py-4 whitespace-nowrap">
+                <button className="text-red-400 hover:text-red-600 focus:text-red-600" onClick={props.deleteTask}> Delete </button>
             </td>
         </tr>
     );

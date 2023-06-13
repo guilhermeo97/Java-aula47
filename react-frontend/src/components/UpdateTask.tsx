@@ -72,67 +72,83 @@ export default function UpdateTask(){
 
     if(task !== undefined){
         return(
-            <>
-                <h1>Task id: {task.id}</h1>
+            <div className="ml-2">
+               <h2 className="text-2xl">Task id: {task.id}</h2>
     
-                <div>
-                    <label>Name: </label>
-                    <input 
-                        type="text" 
-                        name="name"
-                        placeholder="name..."
-                        value={task.name}
-                        onChange={(e) => handleChange(e)}
-                        disabled={readOnly}
-                    />
-                </div>
-    
-                <div>
-                    <label>Description: </label>
-                    <textarea 
-                        name="description"
-                        placeholder="description..."
-                        value={task.description}
-                        onChange={(e) => handleChange(e)}
-                        disabled={readOnly}
-                    />
-                </div>
-    
-                <div>
-                    <label>Deadline: </label>
-                    <input
-                        type="datetime-local"
-                        name="deadlineDate"
-                        value={task.deadlineDate}
-                        onChange={(e) => handleChange(e)}
-                        disabled={readOnly}
-                    />
-                </div>
+                <div className="flex flex-col">
 
-                <div> 
-                    <label>
-                        Is Done:
-                        <input
-                            type="checkbox"
-                            checked={task.done}
-                            onChange={(e) => handleIsDone(e.target.checked)}
+                    <div className="flex py-1">
+                        <label className="mr-2">Name: </label>
+                        <input 
+                            className="border-black border-2 rounded disabled:border-gray-400 disabled:text-gray-400" 
+                            type="text" 
+                            name="name"
+                            placeholder="name..."
+                            value={task.name}
+                            onChange={(e) => handleChange(e)}
                             disabled={readOnly}
-                        />     
-                    </label>
+                        />
+                    </div>
+        
+                    <div className="flex py-1">
+                        <label className="mr-2">Description: </label>
+                        <textarea 
+                            className="border-black border-2 rounded h-36 w-48 disabled:border-gray-400 disabled:text-gray-400"  
+                            name="description"
+                            placeholder="description..."
+                            value={task.description}
+                            onChange={(e) => handleChange(e)}
+                            disabled={readOnly}
+                        />
+                    </div>
+        
+                    <div className="flex py-1">
+                        <label className="mr-2">Deadline: </label>
+                        <input
+                            className="border-black border-2 rounded disabled:border-gray-400 disabled:text-gray-400" 
+                            type="datetime-local"
+                            name="deadlineDate"
+                            value={task.deadlineDate}
+                            onChange={(e) => handleChange(e)}
+                            disabled={readOnly}
+                        />
+                    </div>
 
+                    <div className="flex py-1"> 
+                        <label className="mr-2">
+                            Is Done:
+                            <input
+                            className="ml-2"
+                                type="checkbox"
+                                checked={task.done}
+                                onChange={(e) => handleIsDone(e.target.checked)}
+                                disabled={readOnly}
+                            />     
+                        </label>
+
+                    </div>
+        
+                    <div className="flex py-1">
+                        {readOnly ? 
+                            <button 
+                                className="border-black border-2 rounded px-4 uppercase font-medium bg-yellow-400 focus:bg-yellow-500 hover:bg-yellow-500"
+                                onClick={readOnlyToggle}
+                            > Edit </button>
+                            :
+                            <div className="flex space-x-2">
+                                <button 
+                                    className="border-black border-2 rounded px-4 uppercase font-medium bg-green-400 focus:bg-green-500 hover:bg-green-500"
+                                    onClick={updateTask}
+                                > Save </button>
+                                <button 
+                                    className="border-black border-2 rounded px-4 uppercase font-medium bg-red-400 focus:bg-red-500 hover:bg-red-500"
+                                    onClick={deleteTask}
+                                > Delete </button>
+                            </div>
+                        }
+                    </div>
                 </div>
-    
-                <div>
-                    {readOnly ? 
-                        <button onClick={readOnlyToggle}> Edit </button>
-                        :
-                        <>
-                            <button onClick={updateTask}> Save </button>
-                            <button onClick={deleteTask}> Delete </button>
-                        </>
-                    }
-                </div>
-            </>
+            </div>
         );
     }else {
         return(
